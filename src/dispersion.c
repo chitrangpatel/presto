@@ -175,17 +175,17 @@ void dedisp_subbands(float *data, float *lastdata,
 // the lowest freq channel.
 {
     const int chan_per_subband = numchan / numsubbands;
-    int ii, jj;
+    int ii, jj, kk;
 
     /* Initialize the result array */
     for (ii = 0; ii < numpts * numsubbands; ii++)
         result[ii] = 0.0;
 
     /* De-disperse into the subbands */
-//#ifdef _OPENMP
-//#pragma omp parallel for schedule(static,chan_per_subband)\
-//   default(none) private(ii,jj) shared(result,data,lastdata,delays,numchan,numpts)
-//#endif
+/* #ifdef _OPENMP */
+/* #pragma omp parallel for schedule(static,chan_per_subband)\ */
+/*    default(none) private(ii,jj) shared(result,data,lastdata,delays,numchan,numpts) */
+/* #endif */
     for (ii = 0; ii < numchan; ii++) {
         const int subnum = ii / chan_per_subband;
         const int dind = delays[ii];
@@ -197,11 +197,8 @@ void dedisp_subbands(float *data, float *lastdata,
         for (jj = 0; jj < numpts - dind; jj++)
             sub[jj] += chan[jj];
         chan = data + ii * numpts;
-#ifdef _OPENMP
-#pragma omp parallel for default(none) private(jj) shared(sub,chan,numpts)
-#endif
-        for (jj = numpts - dind; jj < numpts; jj++)
-            sub[jj] += chan[jj];
+        for (jj = numpts - dind, kk = 0; jj < numpts; jj++, kk++)
+            sub[jj] += chan[kk];
     }
 }
 

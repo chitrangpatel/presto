@@ -123,6 +123,14 @@ void get_telescope_name(int telescope_id, struct spectra_info *s)
         strcpy(s->telescope, "VLA");
         s->beam_FWHM = default_beam;
         break;
+    case 64:
+        strcpy(s->telescope, "MeerKAT");
+        s->beam_FWHM = default_beam;
+        break;
+    case 65:
+        strcpy(s->telescope, "KAT-7");
+        s->beam_FWHM = default_beam;
+        break;
     default:
         strcpy(s->telescope, "Unknown");
         s->beam_FWHM = default_beam;
@@ -163,6 +171,12 @@ void get_backend_name(int machine_id, struct spectra_info *s)
         break;
     case 12:
         strcpy(string, "PDEV");
+        break;
+    case 64:
+        strcpy(string, "KAT");
+        break;
+    case 65:
+        strcpy(string, "KAT-DC2");
         break;
     default:
         strcpy(s->backend, "Unknown");
@@ -370,7 +384,7 @@ void read_filterbank_files(struct spectra_info *s)
     s->num_channels = fb.nchans;
     s->samples_per_spectra = s->num_polns * s->num_channels;
     s->bytes_per_spectra = s->bits_per_sample * s->samples_per_spectra / 8;
-    s->spectra_per_subint = 480;        // use this as the blocksize
+    s->spectra_per_subint = 2400;        // use this as the blocksize
     s->bytes_per_subint = s->bytes_per_spectra * s->spectra_per_subint;
     s->samples_per_subint = s->spectra_per_subint * s->samples_per_spectra;
     s->min_spect_per_read = 1;  // Can read a single spectra at a time
