@@ -689,12 +689,13 @@ def main():
                          usage="%prog --inffile <.inf file> [options] *.singlepulse",\
                          description="Group single pulse events and rank them based on the sigma behavior. \
                                        Plot DM vs time with different colours for different ranks as follows:\
-                                       \t\tRank 1 (Other)      : Grey\
-                                       \t\tRank 2 (RFI)        : Red\
-                                       \t\tRank 3 (ok)         : Cyan\
-                                       \t\tRank 4 (good)       : dim blue\
-                                       \t\tRank 5 (very good)  : dark blue\
-                                       \t\tRank 6 (excellent)  : Magenta")
+                                       \t\tRank 1 (Other)          : Grey\
+                                       \t\tRank 2 (RFI)            : Red\
+                                       \t\tRank 3 (ok)             : Cyan\
+                                       \t\tRank 4 (good)           : dim blue\
+                                       \t\tRank 5 (very good)      : dark blue\
+                                       \t\tRank 6 (excellent)      : Magenta\
+                                       \t\tRank 7 (narrow pulses)  : Green")
 
     parser.add_option('--CLOSE-DM', dest='close_dm', type='float', \
                         help="DM to below which the signalis considered RFI(Default: 2", \
@@ -752,8 +753,6 @@ def main():
         raise ValueError("Cannot recognize file type from extension. "
                          " Only '.inf' types are supported.")
     
-    if options.use_DMplan or options.use_configfile or options.vary_group_size:
-        import rrattrap_config
 
     RANKS = np.asarray([2,0,3,4,5,6,7])
     
